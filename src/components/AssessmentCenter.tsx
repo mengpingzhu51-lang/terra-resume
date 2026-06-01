@@ -1,11 +1,9 @@
+'use client';
+
 import React from 'react';
-import { ScreenId } from '../types';
+import Link from 'next/link';
 
-interface AssessmentCenterProps {
-  onNavigate: (screen: ScreenId) => void;
-}
-
-export const AssessmentCenter: React.FC<AssessmentCenterProps> = ({ onNavigate }) => {
+export const AssessmentCenter: React.FC = () => {
   return (
     <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
       {/* Header section */}
@@ -21,7 +19,7 @@ export const AssessmentCenter: React.FC<AssessmentCenterProps> = ({ onNavigate }
             <div className="text-xs">
               <span className="font-bold text-on-primary-fixed">Ready to refine this draft?</span>
               <p className="text-on-surface-variant mt-0.5">
-                Go to the customized <a href="#job_versions" onClick={(e) => { e.preventDefault(); onNavigate('job_versions'); }} className="text-primary hover:underline font-bold underline">Optimizer</a> to align with top roles.
+                Go to the customized <Link href="/job-versions" className="text-primary hover:underline font-bold underline">Optimizer</Link> to align with top roles.
               </p>
             </div>
           </div>
@@ -39,7 +37,7 @@ export const AssessmentCenter: React.FC<AssessmentCenterProps> = ({ onNavigate }
               <circle 
                 cx="50" cy="50" r="44" fill="none" 
                 stroke="var(--color-primary)" strokeWidth="6" 
-                strokeDasharray="276.4" strokeDashoffset="41.4" // Dash offset represented 15% missing for score 85
+                strokeDasharray="276.4" strokeDashoffset="41.4"
                 className="transition-all duration-1000 ease-out"
               />
             </svg>
@@ -111,7 +109,7 @@ export const AssessmentCenter: React.FC<AssessmentCenterProps> = ({ onNavigate }
               </div>
             </div>
             <p className="text-xs text-on-surface-variant leading-relaxed">
-              70% of bullet points start with strong action verbs. Consider upgrading words like "helped" or "worked on".
+              70% of bullet points start with strong action verbs. Consider upgrading words like &quot;helped&quot; or &quot;worked on&quot;.
             </p>
           </div>
 

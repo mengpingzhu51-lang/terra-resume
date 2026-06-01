@@ -1,35 +1,18 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ScreenId, SkillGapItem, KeywordItem } from '../types';
+import Link from 'next/link';
+import { useAppContext } from '../context/AppContext';
 import { SideBar } from './SideBar';
 
-interface JDAnalysisProps {
-  skillGaps: SkillGapItem[];
-  hardKeywords: KeywordItem[];
-  softKeywords: KeywordItem[];
-  cultureKeywords: KeywordItem[];
-  onNavigate: (screen: ScreenId) => void;
-}
-
-export const JDAnalysis: React.FC<JDAnalysisProps> = ({
-  skillGaps,
-  hardKeywords,
-  softKeywords,
-  cultureKeywords,
-  onNavigate,
-}) => {
+export const JDAnalysis: React.FC = () => {
+  const { skillGaps, hardKeywords, softKeywords, cultureKeywords } = useAppContext();
   const [hoveredGapId, setHoveredGapId] = useState<string | null>(null);
 
   return (
     <div className="flex flex-1 overflow-hidden relative">
       {/* SideNavBar with Chinese titles for layout */}
-      <SideBar activeTab="jd_analysis" onNavigate={onNavigate} language="zh" />
-
-      {/* Hidden Navigation Anchor tags for xpath assertions safety */}
-      <div className="hidden">
-        <a href="#assessments" onClick={(e) => { e.preventDefault(); onNavigate('assessment_center'); }}>评估</a>
-        <a href="#job_versions" onClick={(e) => { e.preventDefault(); onNavigate('job_versions'); }}>职位版本</a>
-        <a href="#ai_suggestions" onClick={(e) => { e.preventDefault(); onNavigate('ai_suggestions'); }}>AI 优化建议</a>
-      </div>
+      <SideBar activeTab="jd_analysis" language="zh" />
 
       {/* Main Content Area */}
       <main className="flex-grow overflow-y-auto p-4 md:p-8 lg:p-10 w-full bg-surface">
@@ -50,13 +33,13 @@ export const JDAnalysis: React.FC<JDAnalysisProps> = ({
               <span className="material-symbols-outlined text-[18px]">upload_file</span>
               更新职位描述
             </button>
-            <button 
-              onClick={() => onNavigate('ai_suggestions')}
+            <Link
+              href="/ai-suggestions"
               className="px-3.5 py-2 rounded-xl text-xs font-bold bg-primary text-on-primary hover:bg-primary/95 transition-all shadow-sm flex items-center gap-2 active:scale-95"
             >
               <span className="material-symbols-outlined text-[18px]">auto_awesome</span>
               应用建议
-            </button>
+            </Link>
           </div>
         </header>
 
@@ -78,7 +61,7 @@ export const JDAnalysis: React.FC<JDAnalysisProps> = ({
                     <circle 
                       cx="50" cy="50" r="44" fill="none" 
                       stroke="var(--color-primary)" strokeWidth="6" 
-                      strokeDasharray="276.4" strokeDashoffset="60.8" // Dash offset represented 22% missing for score 78%
+                      strokeDasharray="276.4" strokeDashoffset="60.8"
                       className="transition-all duration-1000 ease-out"
                     />
                   </svg>

@@ -1,19 +1,15 @@
+'use client';
+
 import React from 'react';
-import { ScreenId } from '../types';
+import Link from 'next/link';
 
 interface SideBarProps {
-  activeTab: ScreenId;
-  onNavigate: (screen: ScreenId) => void;
+  activeTab: string;
   language: 'zh' | 'en';
 }
 
-export const SideBar: React.FC<SideBarProps> = ({ activeTab, onNavigate, language }) => {
+export const SideBar: React.FC<SideBarProps> = ({ activeTab, language }) => {
   const isZH = language === 'zh';
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, screen: ScreenId) => {
-    e.preventDefault();
-    onNavigate(screen);
-  };
 
   return (
     <aside className="hidden md:flex flex-col h-[calc(100vh-73px)] w-64 p-4 gap-2 bg-surface-container-low dark:bg-surface-container-high border-r border-outline-variant/10 sticky top-[73px] shrink-0 z-30">
@@ -35,22 +31,17 @@ export const SideBar: React.FC<SideBarProps> = ({ activeTab, onNavigate, languag
       {/* Main Sidebar Navigation links */}
       <nav className="flex-1 space-y-1 font-semibold text-sm">
         {/* 通用简历 Link */}
-        <a
-          href="#home"
-          onClick={(e) => handleNavClick(e, 'home')}
+        <Link
+          href="/"
           className="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out group"
         >
           <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">description</span>
           {isZH ? '通用简历' : 'Master Resume'}
-        </a>
+        </Link>
 
-        {/* Job Versions Link. Xpath expected:
-            - "Job Versions" inside Screen 3 (ai_suggestions)
-            - "职位版本" inside Screen 4 (jd_analysis)
-        */}
-        <a
-          href="#job_versions"
-          onClick={(e) => handleNavClick(e, 'job_versions')}
+        {/* Job Versions Link */}
+        <Link
+          href="/job-versions"
           className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ease-in-out group ${
             activeTab === 'job_versions'
               ? 'bg-primary-container text-on-primary-container font-bold shadow-sm border border-primary/10'
@@ -59,15 +50,11 @@ export const SideBar: React.FC<SideBarProps> = ({ activeTab, onNavigate, languag
         >
           <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]" style={activeTab === 'job_versions' ? { fontVariationSettings: "'FILL' 1" } : {}}>layers</span>
           {isZH ? '职位版本' : 'Job Versions'}
-        </a>
+        </Link>
 
-        {/* JD Analysis Link. Xpath expected:
-            - "JD Analysis" inside Screen 3 (ai_suggestions)
-            - "职位匹配分析" inside Screen 5 (job_versions)
-        */}
-        <a
-          href="#jd_analysis"
-          onClick={(e) => handleNavClick(e, 'jd_analysis')}
+        {/* JD Analysis Link */}
+        <Link
+          href="/jd-analysis"
           className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ease-in-out group ${
             activeTab === 'jd_analysis'
               ? 'bg-primary-container text-on-primary-container font-bold shadow-sm border border-primary/10'
@@ -76,14 +63,11 @@ export const SideBar: React.FC<SideBarProps> = ({ activeTab, onNavigate, languag
         >
           <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]" style={activeTab === 'jd_analysis' ? { fontVariationSettings: "'FILL' 1" } : {}}>analytics</span>
           {isZH ? '职位匹配分析' : 'JD Analysis'}
-        </a>
+        </Link>
 
-        {/* AI Suggestions Link. Xpath expected:
-            - "AI 优化建议" inside Screen 4 (jd_analysis) or Screen 5 (job_versions)
-        */}
-        <a
-          href="#ai_suggestions"
-          onClick={(e) => handleNavClick(e, 'ai_suggestions')}
+        {/* AI Suggestions Link */}
+        <Link
+          href="/ai-suggestions"
           className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ease-in-out group ${
             activeTab === 'ai_suggestions'
               ? 'bg-primary-container text-on-primary-container font-bold shadow-sm border border-primary/10'
@@ -92,7 +76,7 @@ export const SideBar: React.FC<SideBarProps> = ({ activeTab, onNavigate, languag
         >
           <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]" style={activeTab === 'ai_suggestions' ? { fontVariationSettings: "'FILL' 1" } : {}}>psychology</span>
           {isZH ? 'AI 优化建议' : 'AI Suggestions'}
-        </a>
+        </Link>
 
         <a
           href="#revision_history"

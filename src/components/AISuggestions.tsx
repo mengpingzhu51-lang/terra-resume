@@ -1,38 +1,28 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ScreenId, OptimizationSuggestion } from '../types';
+import Link from 'next/link';
+import { useAppContext } from '../context/AppContext';
 import { SideBar } from './SideBar';
 
-interface AISuggestionsProps {
-  suggestions: OptimizationSuggestion[];
-  onNavigate: (screen: ScreenId) => void;
-  onAcceptAll: () => void;
-  onAcceptItem: (id: string) => void;
-  onIgnoreItem: (id: string) => void;
-}
-
-export const AISuggestions: React.FC<AISuggestionsProps> = ({
-  suggestions,
-  onNavigate,
-  onAcceptAll,
-  onAcceptItem,
-  onIgnoreItem,
-}) => {
+export const AISuggestions: React.FC = () => {
+  const { suggestions, acceptAll, acceptItem, ignoreItem } = useAppContext();
   const [successToast, setSuccessToast] = useState<string | null>(null);
 
   const activeSuggestions = suggestions.filter((s) => !s.accepted && !s.ignored);
   
   const handleAccept = (id: string, label: string) => {
-    onAcceptItem(id);
+    acceptItem(id);
     showToast(`已采纳: ${label}`);
   };
 
   const handleIgnore = (id: string, label: string) => {
-    onIgnoreItem(id);
+    ignoreItem(id);
     showToast(`已忽略: ${label}`);
   };
 
   const handleAcceptAllClick = () => {
-    onAcceptAll();
+    acceptAll();
     showToast('已采纳全部建议！匹配度提升');
   };
 
@@ -46,7 +36,7 @@ export const AISuggestions: React.FC<AISuggestionsProps> = ({
   return (
     <div className="flex flex-1 overflow-hidden relative">
       {/* SideNavBar Shared Component */}
-      <SideBar activeTab="ai_suggestions" onNavigate={onNavigate} language="en" />
+      <SideBar activeTab="ai_suggestions" language="en" />
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto bg-surface p-6 lg:p-10 relative">
@@ -57,13 +47,6 @@ export const AISuggestions: React.FC<AISuggestionsProps> = ({
             {successToast}
           </div>
         )}
-
-        {/* Top extra fast navigation bridge specifically for xpath safety */}
-        <div className="hidden">
-          <a href="#assessments" onClick={(e) => { e.preventDefault(); onNavigate('assessment_center'); }}>Assessments</a>
-          <a href="#job_versions" onClick={(e) => { e.preventDefault(); onNavigate('job_versions'); }}>Job Versions</a>
-          <a href="#jd_analysis" onClick={(e) => { e.preventDefault(); onNavigate('jd_analysis'); }}>JD Analysis</a>
-        </div>
 
         {/* Page Header */}
         <div className="max-w-5xl mx-auto mb-8">
@@ -132,7 +115,7 @@ export const AISuggestions: React.FC<AISuggestionsProps> = ({
               </div>
               <h3 className="font-headline font-bold text-lg text-on-surface">做得好！建议已处理</h3>
               <p className="text-xs text-on-surface-variant mt-2 leading-relaxed">
-                您的求职描述已经完美契合雇主招聘指标。返回 <a href="#job_versions" onClick={(e) => { e.preventDefault(); onNavigate('job_versions'); }} className="text-primary hover:underline font-bold">职位版本</a> 查看您的高保真简历 PDF。
+                您的求职描述已经完美契合雇主招聘指标。返回 <Link href="/job-versions" className="text-primary hover:underline font-bold">职位版本</Link> 查看您的高保真简历 PDF。
               </p>
             </div>
           )}

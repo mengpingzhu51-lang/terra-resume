@@ -1,22 +1,16 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ScreenId, ResumeVersion } from '../types';
+import Link from 'next/link';
+import { useAppContext } from '../context/AppContext';
 import { SideBar } from './SideBar';
 
-interface JobVersionsProps {
-  versions: ResumeVersion[];
-  onCreateVersion: () => void;
-  onNavigate: (screen: ScreenId) => void;
-}
-
-export const JobVersions: React.FC<JobVersionsProps> = ({
-  versions,
-  onCreateVersion,
-  onNavigate,
-}) => {
+export const JobVersions: React.FC = () => {
+  const { versions, createVersion } = useAppContext();
   const [copiedNotification, setCopiedNotification] = useState<string | null>(null);
 
   const handleCreateCopy = () => {
-    onCreateVersion();
+    createVersion();
     setCopiedNotification('成功创建新副本并导入通用简历草稿！');
     setTimeout(() => {
       setCopiedNotification(null);
@@ -26,14 +20,7 @@ export const JobVersions: React.FC<JobVersionsProps> = ({
   return (
     <div className="flex flex-1 overflow-hidden relative">
       {/* SideNavBar with English labels for tests */}
-      <SideBar activeTab="job_versions" onNavigate={onNavigate} language="en" />
-
-      {/* Hidden helper anchors supporting navigation flow xpath matches */}
-      <div className="hidden">
-        <a href="#assessments" onClick={(e) => { e.preventDefault(); onNavigate('assessment_center'); }}>Assessments</a>
-        <a href="#jd_analysis" onClick={(e) => { e.preventDefault(); onNavigate('jd_analysis'); }}>职位匹配分析</a>
-        <a href="#ai_suggestions" onClick={(e) => { e.preventDefault(); onNavigate('ai_suggestions'); }}>AI 优化建议</a>
-      </div>
+      <SideBar activeTab="job_versions" language="en" />
 
       {/* Main Content Area */}
       <main className="flex-grow overflow-y-auto p-4 md:p-8 lg:p-10 w-full bg-background animate-fade-in">
@@ -140,20 +127,20 @@ export const JobVersions: React.FC<JobVersionsProps> = ({
                   </div>
                   
                   <div className="flex gap-1.5">
-                    <button 
-                      onClick={() => onNavigate(version.id === 'google-pm' ? 'ai_suggestions' : 'jd_analysis')}
+                    <Link
+                      href={version.id === 'google-pm' ? '/ai-suggestions' : '/jd-analysis'}
                       className="w-8 h-8 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container transition-all flex items-center justify-center text-on-surface outline-none active:scale-90 shadow-xs"
                       title="Navigate to analytics suggestions"
                     >
                       <span className="material-symbols-outlined text-[17px]">edit</span>
-                    </button>
-                    <button 
-                      onClick={() => onNavigate('jd_analysis')}
+                    </Link>
+                    <Link
+                      href="/jd-analysis"
                       className="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high transition-all flex items-center justify-center text-on-surface outline-none active:scale-90"
                       title="View JD Match report"
                     >
                       <span className="material-symbols-outlined text-[17px]">analytics</span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
 
@@ -165,37 +152,30 @@ export const JobVersions: React.FC<JobVersionsProps> = ({
 
         {/* Bottom Nav for Mobile Screens */}
         <nav className="md:hidden fixed bottom-0 left-0 w-full bg-background border-t border-outline-variant/10 flex justify-around items-center py-2.5 z-50 shadow-lg">
-          <a 
-            href="#home" 
-            onClick={(e) => { e.preventDefault(); onNavigate('home'); }}
-            className={`flex flex-col items-center text-[10px] font-bold ${activeScreen() ? 'text-primary' : 'text-on-surface-variant'}`}
+          <Link 
+            href="/"
+            className="flex flex-col items-center text-[10px] font-bold text-on-surface-variant"
           >
             <span className="material-symbols-outlined mb-0.5">dashboard</span>
             <span>Dashboard</span>
-          </a>
-          <a 
-            href="#job_versions" 
-            onClick={(e) => { e.preventDefault(); onNavigate('job_versions'); }}
+          </Link>
+          <Link 
+            href="/job-versions"
             className="flex flex-col items-center text-[10px] font-bold text-primary"
           >
             <span className="material-symbols-outlined mb-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
             <span>Optimizer</span>
-          </a>
-          <a 
-            href="#assessments" 
-            onClick={(e) => { e.preventDefault(); onNavigate('assessment_center'); }}
+          </Link>
+          <Link 
+            href="/assessment-center"
             className="flex flex-col items-center text-[10px] font-bold text-on-surface-variant"
           >
             <span className="material-symbols-outlined mb-0.5">assignment</span>
             <span>Assessments</span>
-          </a>
+          </Link>
         </nav>
         <div className="h-14 md:hidden" />
       </main>
     </div>
   );
-
-  function activeScreen() {
-    return false;
-  }
 };

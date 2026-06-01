@@ -1,25 +1,15 @@
+'use client';
+
 import React from 'react';
-import { ScreenId, ResumeVersion } from '../types';
+import Link from 'next/link';
+import { useAppContext } from '../context/AppContext';
 
-interface HomeProps {
-  versions: ResumeVersion[];
-  onNavigate: (screen: ScreenId) => void;
-}
+export const Home: React.FC = () => {
+  const { versions } = useAppContext();
 
-export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
   // Find versions
   const googleVersion = versions.find(v => v.company === 'Google') || versions[0];
   const metaVersion = versions.find(v => v.company === 'TikTok' || v.company === 'Meta') || versions[1];
-
-  const handleOptimizingClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onNavigate('job_versions');
-  };
-
-  const handleAssessmentsClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onNavigate('assessment_center');
-  };
 
   return (
     <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
@@ -38,19 +28,19 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
             您的通用简历表现出色。本周您有 3 个正在进行的针对性申请。准备好为下一个职位进行优化了吗？
           </p>
           <div className="flex flex-wrap gap-4">
-            <button 
-              onClick={() => onNavigate('ai_suggestions')}
+            <Link
+              href="/ai-suggestions"
               className="bg-primary text-on-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-primary/95 transition-all shadow-sm active:scale-95"
             >
               <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
               智能生成
-            </button>
-            <button 
-              onClick={() => onNavigate('jd_analysis')}
+            </Link>
+            <Link
+              href="/jd-analysis"
               className="bg-transparent text-primary hover:bg-primary/5 border border-primary px-6 py-3 rounded-xl font-bold transition-all active:scale-95"
             >
               查看分析
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -93,12 +83,12 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
               <button className="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-2.5 rounded-xl text-xs font-bold transition-colors">
                 编辑
               </button>
-              <button 
-                onClick={() => onNavigate('assessment_center')}
-                className="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-2.5 rounded-xl text-xs font-bold transition-colors"
+              <Link
+                href="/assessment-center"
+                className="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-2.5 rounded-xl text-xs font-bold transition-colors text-center"
               >
                 预览
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -109,22 +99,20 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
               快捷导航流程
             </h3>
             <div className="flex flex-col gap-2 font-semibold text-xs">
-              <a 
-                href="#job_versions" 
-                onClick={handleOptimizingClick}
+              <Link 
+                href="/job-versions"
                 className="flex items-center justify-between p-2.5 bg-surface rounded-lg hover:bg-primary-container/20 hover:text-primary transition-all group"
               >
                 <span>🚀 进行针对性简历优化器</span>
                 <span className="font-bold text-primary group-hover:translate-x-1 transition-transform">优化器 →</span>
-              </a>
-              <a 
-                href="#assessments" 
-                onClick={handleAssessmentsClick}
+              </Link>
+              <Link 
+                href="/assessment-center"
                 className="flex items-center justify-between p-2.5 bg-surface rounded-lg hover:bg-primary-container/20 hover:text-primary transition-all group"
               >
                 <span>📊 查看专业简历诊断报告</span>
                 <span className="font-bold text-primary group-hover:translate-x-1 transition-transform">评估 →</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -136,13 +124,13 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
               <span className="material-symbols-outlined text-primary text-2xl">layers</span>
               针对性版本
             </h2>
-            <button 
-              onClick={() => onNavigate('job_versions')}
+            <Link
+              href="/job-versions"
               className="text-primary hover:text-primary-container font-bold text-sm py-1 px-3 bg-primary-fixed text-on-primary-fixed-variant rounded-full flex items-center gap-1 hover:shadow-xs transition-all active:scale-95"
             >
               / 职位版本
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -177,13 +165,13 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
               </div>
 
               <div className="mt-4">
-                <button 
-                  onClick={() => onNavigate('ai_suggestions')}
+                <Link
+                  href="/ai-suggestions"
                   className="w-full bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary-fixed-variant py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-xs"
                 >
                   <span className="material-symbols-outlined text-[16px]">edit</span>
                   继续优化
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -218,13 +206,13 @@ export const Home: React.FC<HomeProps> = ({ versions, onNavigate }) => {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <button 
-                  onClick={() => onNavigate('jd_analysis')}
+                <Link
+                  href="/jd-analysis"
                   className="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-[16px]">visibility</span>
                   查看匹配
-                </button>
+                </Link>
                 <button className="bg-surface-container hover:bg-surface-container-high text-on-surface p-2 rounded-xl transition-all flex items-center justify-center shadow-xs">
                   <span className="material-symbols-outlined text-[16px]">download</span>
                 </button>
