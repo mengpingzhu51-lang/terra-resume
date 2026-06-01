@@ -1,0 +1,6 @@
+{
+  "name": "Terra Resume",
+  "description": "An organic, warm, and highly-polished multi-screen resume optimizer and evaluation platform to tailor and analyze resumes for specific job descriptions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
